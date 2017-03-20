@@ -1,0 +1,14 @@
+{
+  "extends": [
+    "airbnb/legacy"
+  ],
+  "rules": {
+    "no-console": "warn",
+    "no-plusplus": "warn"
+  },
+  "plugins": [
+  ],
+  "env": {
+    "browser": true
+  }
+}
