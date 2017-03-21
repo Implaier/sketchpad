@@ -1,116 +1,116 @@
-'use strict';
+'use strict'
 
-var color = 'white';
-var setBtn = document.menu.size;
-var resetBtn = document.menu.reset;
-var i = null;
-var j = null;
-var mouseActive = 0;
-var colorInputs = document.menu.color;
-var canvas = document.getElementById('canvas');
+var color = 'white'
+var setBtn = document.menu.size
+var resetBtn = document.menu.reset
+var i = null
+var j = null
+var mouseActive = 0
+var colorInputs = document.menu.color
+var canvas = document.getElementById('canvas')
 
-function changeMouseState() {
+function changeMouseState () {
   if (mouseActive) {
-    mouseActive = 0;
+    mouseActive = 0
   } else {
-    mouseActive = 1;
+    mouseActive = 1
   }
 }
 
-function updateColor() {
-  color = this.value;
+function updateColor () {
+  color = this.value
 }
 
-function addColor(event) {
+function addColor (event) {
   if (mouseActive || event.type === 'mousedown') {
-    this.className = '';
-    this.classList.add(color);
+    this.className = ''
+    this.classList.add(color)
   }
 }
 
-function getPixelSize() {
-  return Number(document.getElementById('pixel-size').value);
+function getPixelSize () {
+  return Number(document.getElementById('pixel-size').value)
 }
 
-function getCSSRule(ruleName, deleteFlag) {
-  var cssRule;
-  var styleSheet;
+function getCSSRule (ruleName, deleteFlag) {
+  var cssRule
+  var styleSheet
   if (document.styleSheets) {
     for (i = 0; i < document.styleSheets.length; i++) {
-      styleSheet = document.styleSheets[i];
-      j = 0;
-      cssRule = false;
+      styleSheet = document.styleSheets[i]
+      j = 0
+      cssRule = false
       do {
         if (styleSheet.cssRules) {
-          cssRule = styleSheet.cssRules[j];
+          cssRule = styleSheet.cssRules[j]
         } else {
-          cssRule = styleSheet.rules[j];
+          cssRule = styleSheet.rules[j]
         }
         if (cssRule) {
           if (cssRule.selectorText.toLowerCase() === ruleName) {
             if (deleteFlag === 'delete') {
               if (styleSheet.cssRules) {
-                styleSheet.deleteRule(j);
+                styleSheet.deleteRule(j)
               } else {
-                styleSheet.removeRule(j);
+                styleSheet.removeRule(j)
               }
-              return true;
+              return true
             }
-            return cssRule;
+            return cssRule
           }
         }
-        j += 1;
-      } while (cssRule);
+        j += 1
+      } while (cssRule)
     }
   }
-  return false;
+  return false
 }
 
-function drawDivs() {
-  var width = 600 / getPixelSize();
-  var height = 480 / getPixelSize();
-  var fragment = document.createDocumentFragment();
-  var element = null;
+function drawDivs () {
+  var width = 600 / getPixelSize()
+  var height = 480 / getPixelSize()
+  var fragment = document.createDocumentFragment()
+  var element = null
 
   for (i = 0; i < width * height; i += 1) {
-    element = document.createElement('div');
-    element.addEventListener('mouseenter', addColor);
-    element.addEventListener('mousedown', addColor);
-    fragment.appendChild(element);
+    element = document.createElement('div')
+    element.addEventListener('mouseenter', addColor)
+    element.addEventListener('mousedown', addColor)
+    fragment.appendChild(element)
   }
 
-  canvas.appendChild(fragment);
+  canvas.appendChild(fragment)
 }
 
-function reset() {
+function reset () {
   for (i = 0; i < canvas.childElementCount; i += 1) {
-    canvas.children[i].className = '';
+    canvas.children[i].className = ''
   }
 }
 
-function resize() {
-  var pixelSize = getPixelSize();
+function resize () {
+  var pixelSize = getPixelSize()
 
-  var divSize = getCSSRule('#canvas div');
+  var divSize = getCSSRule('#canvas div')
 
-  divSize.style.width = pixelSize + 'px';
-  divSize.style.height = pixelSize + 'px';
+  divSize.style.width = pixelSize + 'px'
+  divSize.style.height = pixelSize + 'px'
 
-  canvas.innerHTML = '';
+  canvas.innerHTML = ''
 
-  drawDivs();
+  drawDivs()
 }
 
-function init() {
-  drawDivs();
+function init () {
+  drawDivs()
 }
 
 for (i = 0; i < colorInputs.length; i += 1) {
-  colorInputs[i].addEventListener('click', updateColor);
+  colorInputs[i].addEventListener('click', updateColor)
 }
-document.addEventListener('mousedown', changeMouseState);
-document.addEventListener('mouseup', changeMouseState);
-resetBtn.addEventListener('click', reset);
-setBtn.addEventListener('click', resize);
+document.addEventListener('mousedown', changeMouseState)
+document.addEventListener('mouseup', changeMouseState)
+resetBtn.addEventListener('click', reset)
+setBtn.addEventListener('click', resize)
 
-document.body.onload = init();
+document.body.onload = init()
